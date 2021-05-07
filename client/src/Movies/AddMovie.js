@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+
+import {addMovie} from "../actions/movieActions";
+import { connect } from "react-redux";
+
 import axios from "axios";
 
 const initialMovie = {
@@ -22,22 +26,25 @@ const AddMovie = (props) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios.post(`http://localhost:5000/api/movies/`, movie)
-      .then(res => {
-        setMovieList(
-          movies.map((movie) => {
-            if (toString(movie.id) === `${id}`) {
-              return res.data; 
-            } else {
-              return movie;
-            }
-          })
-        );
+    props.addMovie(movie)
+    setMovie(initialMovie);
+    push(`/`);
+    // axios.post(`http://localhost:5000/api/movies/`, movie)
+    //   .then(res => {
+    //     setMovieList(
+    //       movies.map((movie) => {
+    //         if (toString(movie.id) === `${id}`) {
+    //           return res.data; 
+    //         } else {
+    //           return movie;
+    //         }
+    //       })
+    //     );
 
-        setMovie(initialMovie);
-        push(`/`);
-      })
-      .catch();
+    //     setMovie(initialMovie);
+    //     push(`/`);
+    //   })
+    //   .catch();
   };
 
   const HandleChanges = e => {
@@ -96,4 +103,8 @@ const AddMovie = (props) => {
   )
 };
 
-export default AddMovie;
+
+const mapDispatchToProps =  { addMovie}
+
+export default connect(null ,mapDispatchToProps)(AddMovie);
+

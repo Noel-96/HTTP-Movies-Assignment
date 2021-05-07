@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
+import { connect } from "react-redux";
 
-function MovieList({ movies }) {
+function MovieList( props ) {
   return (
     <div className="movie-list">
       {
-        movies.map(movie => (
+        props.state.movieState.map(movie => (
           <Link key={movie.id} to={`/movies/${movie.id}`}>
             <MovieCard movie={movie} />
           </Link>
@@ -16,4 +17,12 @@ function MovieList({ movies }) {
   );
 }
 
-export default MovieList;
+
+
+function mapStateToProps(state){
+  return {
+    state
+  }   
+};
+
+export default connect(mapStateToProps,null)(MovieList);
